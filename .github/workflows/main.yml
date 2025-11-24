@@ -35,6 +35,19 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}  
+          
+      - name: Build and push api-gateway image
+        run: |
+          docker build -t majidkouki/api-gateway:latest .
+          docker push majidkouki/api-gateway:latest
+      - name: Build and push client-service image
+        run: |
+          docker build -t majidkouki/client-service:latest .
+          docker push majidkouki/client-service:latest
+      - name: Build and push account-service image
+        run: |
+          docker build -t majidkouki/account-service:latest .
+          docker push majidkouki/account-service:latest
  deploy:
     name: Deploy
     runs-on: ubuntu-latest
