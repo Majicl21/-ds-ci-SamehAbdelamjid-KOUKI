@@ -37,14 +37,17 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}  
           
       - name: Build and push api-gateway image
+        working-directory: ds-api-gateway
         run: |
           docker build -t majidkouki/api-gateway:latest .
           docker push majidkouki/api-gateway:latest
       - name: Build and push client-service image
+        working-directory: ds-account-service
         run: |
           docker build -t majidkouki/client-service:latest .
           docker push majidkouki/client-service:latest
       - name: Build and push account-service image
+        working-directory: ds-client-service
         run: |
           docker build -t majidkouki/account-service:latest .
           docker push majidkouki/account-service:latest
