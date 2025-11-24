@@ -1,0 +1,5 @@
+name: automatiser le build et la publication des microservices
+on:
+ workflow_dispatch:
+ pull_request:
+   branches: [ main ]
