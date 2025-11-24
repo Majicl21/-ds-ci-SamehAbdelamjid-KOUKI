@@ -1,5 +1,48 @@
 name: automatiser le build et la publication des microservices
 on:
- workflow_dispatch:
- pull_request:
-   branches: [ main ]
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]  
+  push:
+    branches: [ main, develop ]   
+  issues:
+    types: [opened, edited, closed]
+  issue_comment:
+    types: [created]
+    
+env:
+ DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+ DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+ REPO_API: api-gateway
+ REPO_CLIENT: client-service
+ REPO_ACCOUNT: account-service
+
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Login DockerHub dans CI
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}  
+ deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Simulate deployment
+        run: echo "Simulating deployment of all services"
+    
+
+
+    
